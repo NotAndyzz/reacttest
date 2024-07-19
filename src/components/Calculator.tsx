@@ -1,5 +1,6 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import Alert from "./Alert";
+import "../Calculator.css";
 
 function Calculator() {
   let [currentInput, setCurrentInput] = useState<number>(0);
