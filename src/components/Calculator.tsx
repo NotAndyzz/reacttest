@@ -1,9 +1,10 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import Alert from "./Alert";
 import "../Calculator.css";
-import { AppDispatch, RootState } from '../state/store';
-import { useDispatch, useSelector } from 'react-redux'
-import { save} from "../state/calculator/calculatorSlice";
+import StyledButton from "./Button";
+import { AppDispatch, RootState } from "../state/store";
+import { useDispatch, useSelector } from "react-redux";
+import { save } from "../state/calculator/calculatorSlice";
 
 function Calculator() {
   let [currentInput, setCurrentInput] = useState<number>(0);
@@ -54,7 +55,7 @@ function Calculator() {
     setIsChanged(false);
   }
 
-  function setStore(){
+  function setStore() {
     setCurrentInput(val);
     setIsChanged(true);
   }
@@ -84,9 +85,9 @@ function Calculator() {
 
   return (
     <div className="container">
-      <div>
-        <h1>CALCULATOR</h1>
-        <br />
+    <div>
+      <h1>CALCULATOR</h1>
+      <br />
         <div className="calculator">
           <div className="minititles">
             <h3 id="resultid">{result}</h3>
@@ -100,42 +101,57 @@ function Calculator() {
           </div>
           <div className="operationss">
             {["+", "-", "*", "/", "="].map((e, i) => (
-              <button
-                key={"asssaa" + i}
-                className="opbtn"
+              <StyledButton
                 onClick={() => handleOperationClick(e)}
-              >
-                {e}
-              </button>
+                background="hotpink"
+                hoverColor="lightpink"
+                children={e}
+                key={"asssaa" + i}
+                padding="10px 40px"
+              ></StyledButton>
             ))}
           </div>
           <div className="grid-container">
             {[7, 8, 9, 4, 5, 6, 1, 2, 3, 0].map((element, index) => {
               return (
                 <>
-                  <button
-                    key={"baaaaaa" + index}
-                    className="grid-item"
+                  <StyledButton
                     onClick={() => onNumberPressed(element)}
+                    background="darkorange"
+                    hoverColor="purple"
+                    key={"baaaaaa" + index}
                   >
                     {element}
-                  </button>
+                  </StyledButton>
                 </>
               );
             })}
-            <button className="grid-item" onClick={clearCalc}>
-              AC
-            </button>
-            <button
-              className="grid-item"
+            <StyledButton
+              onClick={clearCalc}
+              background="darkorange"
+              hoverColor="purple"
+            >AC</StyledButton>
+          
+            <StyledButton
               onClick={() => dispatch(save(result))}
+              background="darkorange"
+              hoverColor="purple"
+              fontsize="30px"
             >
-              💾
-            </button>
+              💾 Hi
+            </StyledButton>
           </div>
         </div>
       </div>
-      <button onClick={() => setStore()}>STO Display</button>
+      <StyledButton
+        onClick={setStore}
+        background="red"
+        hoverColor="purple"
+        fontsize="16px"
+        padding="10px"
+      >
+        Hi
+      </StyledButton>
     </div>
   );
 }
