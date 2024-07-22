@@ -1,12 +1,17 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import Alert from "./Alert";
 import "../Calculator.css";
+import { AppDispatch, RootState } from '../state/store';
+import { useDispatch, useSelector } from 'react-redux'
+import { save} from "../state/calculator/calculatorSlice";
 
 function Calculator() {
   let [currentInput, setCurrentInput] = useState<number>(0);
   let [result, setResult] = useState<number>(0);
   const [lastOperation, setLastOperation] = useState<string>("");
   const [isChanged, setIsChanged] = useState(false);
+  const val = useSelector((state: RootState) => state.calculator.value);
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -47,6 +52,11 @@ function Calculator() {
     setResult(0);
     setLastOperation("");
     setIsChanged(false);
+  }
+
+  function setStore(){
+    setCurrentInput(val);
+    setIsChanged(true);
   }
 
   function calculate(res: number, currInput: number, operation: string) {
@@ -118,13 +128,14 @@ function Calculator() {
             </button>
             <button
               className="grid-item"
-              onClick={() => alert("Made by Andis")}
+              onClick={() => dispatch(save(result))}
             >
-              ?
+              💾
             </button>
           </div>
         </div>
       </div>
+      <button onClick={() => setStore()}>STO Display</button>
     </div>
   );
 }

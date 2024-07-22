@@ -1,4 +1,13 @@
 {
+  "compilerOptions": {
+    "composite": true,
+    "target": "es5", 
+    "module": "commonjs", 
+    "rootDir": "./src",
+    "strict": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true
+  },
   "files": [],
   "references": [
     {
