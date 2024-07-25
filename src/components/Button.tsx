@@ -3,20 +3,22 @@ import styled from "styled-components";
 
 interface Props {
   background?: string;
-  hoverColor?: string;
+  hovercolor?: string;
   color?: string;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   fontsize?: string;
   key?: string;
   padding?: string;
+  margin?: string;
 }
 
-const Button = styled.button<{
+export const Button = styled.button<{
   background?: string;
-  hoverColor?: string;
+  hovercolor?: string;
   color?: string;
   fontsize?: string;
   padding?: string;
+  margin?: string;
 }>`
   padding: ${({padding}) => padding || "20px"};
   font-size: ${({fontsize}) => fontsize || "25px"};
@@ -24,24 +26,25 @@ const Button = styled.button<{
   border: none;
   outline: none;
   background-color: ${({background}) => background || "darkgrey"};
-  color: ${({color}) => color ?? "white" };
+  color: ${({color}) => color || "white" };
+  margin: ${({margin}) => margin || "0px"};
 
-  /* Hover effect */
   &:hover {
-    background-color: ${({hoverColor}) => hoverColor || "black"};
+    background-color: ${({hovercolor}) => hovercolor || "black"};
   }
 `;
 
 const StyledButton = ({
   onClick,
   background,
-  hoverColor,
+  hovercolor,
   color,
   fontsize,
   padding,
   children
-}: PropsWithChildren<Props>) => {  return (
-    <Button onClick={onClick} background={background} hoverColor={hoverColor} color={color} fontsize={fontsize} padding={padding}>
+}: PropsWithChildren<Props>) => {  
+  return (
+    <Button onClick={onClick} background={background} hovercolor={hovercolor} color={color} fontsize={fontsize} padding={padding}>
       {children}
     </Button>
   );
