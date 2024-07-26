@@ -1,8 +1,14 @@
-import { memo, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import StyledButton, { Button } from "../../components/Button";
 import styled from "styled-components";
 import x from '../../assets/x.svg'
 import o from '../../assets/o.svg'
+import { Link } from "react-router-dom";
+import { ModalType, openModal, setModalType } from "../../state/modal/modalSlice";
+import { AppDispatch, RootState } from "../../state/store";
+import { useDispatch, useSelector } from "react-redux";
+import IconX from "../../assets/components/x";
+import IconO from "../../assets/components/o";
 
 const Container = styled.div`
   text-align: center;
@@ -48,24 +54,29 @@ const Reset = styled(Button)`
   font-weight: bold;
 `;
 
-enum GameState{
+export enum GameState{
   xWin,
   oWin,
   draw,
   inplay,
 }
+
+
+
 const TicTacToe = () => {
-  const [data, setData] = useState<Array<string>>(["x","x","","o","o","","","",""]);
+  const [data, setData] = useState<Array<string>>(["","","","","","","","",""]);
   const [gameState, setGameState] = useState(GameState.inplay);
   const [xTurn, setXTurn] = useState(true);
 
+  const dispatch = useDispatch<AppDispatch>();
   useEffect(()=>{
-    //alert(gameState);
-
+    if(gameState != GameState.inplay){
+      dispatch(setModalType({type: ModalType.ticTacToe, data: gameState}))
+    }
   },[gameState]);
 
-  const toggle = (index: number) => {
-    if(!data[index]){
+  const toggle = useCallback((index: number) => {
+    if(!data[index] && gameState == GameState.inplay){
       const savedData = [...data];
       savedData[index] = xTurn ? "x": "o";
       setData(savedData);
@@ -75,9 +86,9 @@ const TicTacToe = () => {
         setXTurn(!xTurn);
       }
     }
-  }
-
-  const checkWin = (data: Array<string>) =>{
+  },[xTurn, data, gameState]);
+  
+  const checkWin = useCallback((data: Array<string>) =>{
     const size = 3;
 
     console.log({curr: data});
@@ -106,7 +117,7 @@ const TicTacToe = () => {
       for(let j = 0; j < size; j++){
         if(filled && !data[i*size+j]){
           filled = false;
-        }
+        }  
         if(checkRows[0] && data[i*size+j] != 'x'){
           console.log("false when", i, j);
           checkRows[0] = false;
@@ -141,43 +152,45 @@ const TicTacToe = () => {
     }
 
     return GameState.inplay;
-  }
+  }, []);
 
 
-  const reset = () => {
-    setData(Array(9).fill(""));
-    setGameState(GameState.inplay);
-    setXTurn(true);
-  }
+  const ResetComponent = useCallback(()=>{
+    return (
+    <Reset onClick={() => {
+      setData(Array(9).fill(""));
+      setGameState(GameState.inplay);
+      setXTurn(true);
+    }}>
+      Reset
+    </Reset>);
+  },[]);
+
+  const renderedItem = useCallback((element : string, index: number)=>{
+    return (
+      <TicTacButton
+        key={""+index}
+        background="rgba(38, 255, 203, 0.2)"
+        hovercolor="rgba(0,0,0, 0.2)"
+        onClick={() => toggle(index)}
+      >
+        {
+          element == "x" ? <IconX height="100%" width="100%"/> :
+          element == "o" ? <IconO height="100%" width="100%"/> : ""
+        }
+      </TicTacButton>
+    );
+  },[data]);
 
   return (
     <Container>
       <TitleContainer>
-      TIC TAC TOE <StyledSpan>REACT</StyledSpan>
+        TIC TAC TOE <StyledSpan>REACT</StyledSpan>
       </TitleContainer>
       <GridContainer>
-          {data.map((element, index) => {
-            return (
-              <TicTacButton
-                key={""+index}
-                background="rgba(38, 255, 203, 0.2)"
-                hovercolor="rgba(0,0,0, 0.2)"
-                onClick={() => toggle(index)}
-              >
-                {
-                  element == "x" ? <img height="100%" src={x} alt="" /> :
-                  element == "o" ? <img height="100%" src={o} alt="" /> : ""
-                }
-              </TicTacButton>
-            );
-          })}
+          {data.map(renderedItem)}
       </GridContainer>
-      <div>{gameState == GameState.draw ? "Draw" : 
-            gameState == GameState.xWin ? "X wins": 
-            gameState == GameState.oWin ? "O wins" : ""}</div>
-      <Reset onClick={(() => reset())}>
-        Reset
-      </Reset>
+      <ResetComponent/>
     </Container>
   );
 }

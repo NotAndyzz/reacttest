@@ -104,7 +104,7 @@ function Calculator() {
               <StyledButton
                 onClick={() => handleOperationClick(e)}
                 background="hotpink"
-                hoverColor="lightpink"
+                hovercolor="lightpink"
                 children={e}
                 key={"asssaa" + i}
                 padding="10px 40px"
@@ -118,7 +118,7 @@ function Calculator() {
                   <StyledButton
                     onClick={() => onNumberPressed(element)}
                     background="darkorange"
-                    hoverColor="purple"
+                    hovercolor="purple"
                     key={"baaaaaa" + index}
                   >
                     {element}
@@ -129,13 +129,13 @@ function Calculator() {
             <StyledButton
               onClick={clearCalc}
               background="darkorange"
-              hoverColor="purple"
+              hovercolor="purple"
             >AC</StyledButton>
           
             <StyledButton
               onClick={() => dispatch(save(result))}
               background="darkorange"
-              hoverColor="purple"
+              hovercolor="purple"
               fontsize="30px"
             >
               💾 Hi
@@ -146,7 +146,7 @@ function Calculator() {
       <StyledButton
         onClick={setStore}
         background="red"
-        hoverColor="purple"
+        hovercolor="purple"
         fontsize="16px"
         padding="10px"
       >

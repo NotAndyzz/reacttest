@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import calculator from "./calculator/calculatorSlice";
 import counter from "./counter/counterSlice";
+import modal from "./modal/modalSlice";
 
 export const store = configureStore({
     reducer:{
         calculator,
         counter,
+        modal
     },
 });
 

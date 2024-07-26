@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction} from "@reduxjs/toolkit";
 import Calculator from "../../components/Calculator";
 
-interface CounterState {
+interface CalculatorState {
   value: number;
 }
 
-const initialState: CounterState = {
+const initialState: CalculatorState = {
   value: 0,
 };
 
